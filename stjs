@@ -1,0 +1,8 @@
+#!/bin/bash
+echo off
+tmux -u new-session  -A -d -s  js
+#tmux -u new-window -t $DEV_SESSION
+tmux -u select-pane -t 1
+tmux -u send-keys "cd $CODE/JS;vim t.js"  "C-m"
+tmux -u attach-session -d -t  js
+

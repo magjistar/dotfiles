@@ -1,0 +1,3 @@
+#!/bin/bash
+cd $CSCODE/a
+vim Program.cs

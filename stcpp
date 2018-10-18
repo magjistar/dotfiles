@@ -1,0 +1,31 @@
+#!/bin/bash
+#create a 2 pand window with vim on left.
+DEV_SESSION=$(cat /dev/urandom |LC_CTYPE=C tr -dc "[:alpha:]" | head -c 4)
+DEV_FILE=.
+cd $CCODE
+#http://stackoverflow.com/192249
+for i in "$@"
+do
+  case $i in
+    -s|--session)
+      DEV_SESSION="$2"
+      shift 2
+      ;;
+    *)
+      #unknown option
+      ;;
+  esac
+done
+
+if [ -n $1 ]
+then
+  DEV_FILE="$1"
+fi
+
+tmux -u new-session -d -s $DEV_SESSION
+tmux -u new-window -t $DEV_SESSION
+tmux -u split-window -h
+tmux -u select-pane -t 1
+tmux -u send-keys "cd $CCODE;vim $DEV_FILE" "C-m"
+tmux -u attach-session -d -t ${DEV_SESSION}
+
